@@ -102,7 +102,7 @@ $.ajax("https://23.101.131.211/metric", {
     }
     layout = {
         hovermode: 'closest',
-        title: 'Click to fastforward video to current time',
+        title: 'Click on the graph below to navigate through video',
         xaxis: {range: [0, rawGData.length / 2]},
         yaxis: {range: [0, 1]}
     };
@@ -173,7 +173,7 @@ $.ajax("https://23.101.131.211/demographic", {
 
     // plotly plot
     console.log('reach')
-
+    document.getElementById("viewCount").innerText = "Total views: " + rawData.gender.length;
     Plotly.newPlot('barChart', bData);
     Plotly.newPlot('pieChart', pData, {title: 'Age'});
 })

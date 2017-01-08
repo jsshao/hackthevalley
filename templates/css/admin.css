@@ -1,15 +1,34 @@
+body{
+  font-family: 'Roboto', san-:serif;
+}
+.logo{
+  position: absolute;
+  width:10%;
+  margin-top:0px;
+  right: 30px;
+}
+
 #title {
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: 600;
     text-align: center;
     margin-top: 30;
     font-family: 'Roboto', sans-serif;
+    color:black;
 }
-
+#viewCount{
+  font-family: 'Roboto', sans-serif;
+  font-weight:500;
+  font-size:1.2em;
+  text-align:center;
+  margin-top:20px;
+  margin-bottom:-5px;
+  z-index:99;
+}
 #player {
-    -webkit-box-shadow: 17px 10px 56px -17px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 17px 10px 56px -17px rgba(0, 0, 0, 0.75);
-    box-shadow: 17px 10px 56px -17px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 17px 10px 50px -17px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 17px 10px 50px -17px rgba(0, 0, 0, 0.75);
+    box-shadow: 17px 10px 50px -17px rgba(0, 0, 0, 0.75);
 }
 
 #graph {
@@ -57,9 +76,9 @@
     top: 0;
     left: 0;
     right: 0;
-    -webkit-box-shadow: 17px 10px 56px -17px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 17px 10px 56px -17px rgba(0, 0, 0, 0.75);
-    box-shadow: 17px 10px 56px -17px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 17px 10px 25px -17px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 17px 10px 25px -17px rgba(0, 0, 0, 0.75);
+    box-shadow: 17px 10px 25px -17px rgba(0, 0, 0, 0.75);
 }
 
 body {
