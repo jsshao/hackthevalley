@@ -96,6 +96,43 @@ def getAllVideoIds():
     cursor.execute(query)
     return [video[0] for video in cursor.fetchall()]
 
+def getDemographic(video_id):
+    data = {'gender': [0, 0], 'age': [0, 0, 0, 0, 0, 0]}
+    cursor = connect().cursor()
+    query = """
+            SELECT gender, COUNT(*)
+            FROM users
+            WHERE user_id IN (
+	        SELECT DISTINCT user_id 
+	        FROM metrics
+	        WHERE video_id = '%s'
+            )
+            GROUP BY gender
+    """ % video_id
+    cursor.execute(query)
+    for point in cursor.fetchall():
+        if point[0] == 'male':
+            data['age'][0] = point[1]
+        else:
+            data['age'][1] = point[1]
+    query = """
+            SELECT SUM(CASE WHEN age BETWEEN 13 AND 17 THEN 1 ELSE 0 END),
+                   SUM(CASE WHEN age BETWEEN 18 AND 24 THEN 1 ELSE 0 END),
+                   SUM(CASE WHEN age BETWEEN 25 AND 34 THEN 1 ELSE 0 END),
+                   SUM(CASE WHEN age BETWEEN 35 AND 44 THEN 1 ELSE 0 END),
+                   SUM(CASE WHEN age BETWEEN 45 AND 54 THEN 1 ELSE 0 END),
+                   SUM(CASE WHEN age >= 55 THEN 1 ELSE 0 END)
+            FROM users
+            WHERE user_id IN (
+	        SELECT DISTINCT user_id 
+	        FROM metrics
+	        WHERE video_id = '%s'
+            )
+    """ % video_id
+    cursor.execute(query)
+    data['age'] = list(cursor.fetchall()[0])
+    return data
+
 # Test only
 if __name__ == '__main__':
     insertMetric('test', 'test', 10, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
@@ -108,6 +145,7 @@ if __name__ == '__main__':
     print userExists('test')
     print getVideoMetrics('VEX7KhIA3bU')
     print getAllVideoIds()
+    print getDemographic('VEX7KhIA3bU')
 
 #cursor.execute("SELECT * FROM metrics")
 #for rows in cursor.tables():
