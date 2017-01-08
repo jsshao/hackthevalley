@@ -33,7 +33,7 @@ for (let i = 0; i < 4; i++) {
 }
 
 let gData = []
-let vidId = "VEX7KhIA3bU";
+let vidId = VIDEO_ID;
 let rawGData;
 $.ajax("https://23.101.131.211/metric",{
   data: JSON.stringify({"video_id":vidId}),
