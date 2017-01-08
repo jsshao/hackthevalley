@@ -8,11 +8,11 @@
 var video = document.querySelector('video');
 var photo = document.getElementById('photo');
 var photoContext = photo.getContext('2d');
-var button = document.getElementById('btn-download');
+var webcamSwitch = document.getElementById("webcam-switch");
+var webcamSwitchRadio = document.getElementById("webcam-switch-radio");
 var photoData;
 var photoTimer;
 var PHOTO_INTERVAL = 500;
-var VIDEO_ID = "VEX7KhIA3bU";
 
 var photoContextW;
 var photoContextH;
@@ -29,7 +29,7 @@ function initWebCam() {
     })
         .then(gotStream)
         .catch(function (e) {
-            alert('getUserMedia() error: ' + e.name);
+            console.log('getUserMedia() error: ' + e.name);
         });
 }
 
@@ -74,28 +74,30 @@ function getSessionCookie() {
  ****************************************************************************/
 
 function savePhoto() {
-    photoContext.drawImage(video, 0, 0, photo.width, photo.height);
-    show(photo);
-    photoData = photo.toDataURL().substring(22);
-    var data = {
-        image: photoData,
-        user_id: getSessionCookie(),
-        video_id: VIDEO_ID,
-        timestamp: Math.round(player.getCurrentTime() * 2)
-    };
-    console.log(data);
-    var jsonData = JSON.stringify(data);
-    $.ajax({
-        type: "POST",
-        url: "/collect",
-        headers: {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"},
-        data: jsonData,
-        crossDomain: true,
-        dataType: "json"
-    })
-        .done(function (msg) {
-            console.log(msg);
-        });
+    if (webcamSwitchRadio.checked) {
+        photoContext.drawImage(video, 0, 0, photo.width, photo.height);
+        photoData = photo.toDataURL().substring(22);
+        var data = {
+            image: photoData,
+            user_id: getSessionCookie(),
+            video_id: VIDEO_ID,
+            timestamp: Math.round(player.getCurrentTime() * 2)
+        };
+        console.log(data);
+        var jsonData = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            url: "/collect",
+            headers: {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"},
+            data: jsonData,
+            crossDomain: true,
+            dataType: "json"
+        })
+            .done(function (msg) {
+                console.log(msg);
+            });
+    }
+
 }
 
 
@@ -114,10 +116,6 @@ function hide() {
         elem.style.display = 'none';
     });
 }
-
-button.addEventListener('click', function (e) {
-    button.href = photoData;
-});
 
 /****************************************************************************
  * YouTube Section
@@ -145,7 +143,6 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
     console.log('youtube player loaded');
     document.getElementById("title").innerText = player.getVideoData().title;
-    event.target.playVideo();
 }
 
 let myPlayerState;
@@ -175,4 +172,11 @@ function stopVideo() {
  * Init
  ****************************************************************************/
 
-initWebCam();
+webcamSwitchRadio.addEventListener("click", function () {
+    console.log(webcamSwitchRadio.checked);
+    if (webcamSwitchRadio.checked) {
+        initWebCam();
+    } else {
+        window.stream.getTracks()[0].stop();
+    }
+});

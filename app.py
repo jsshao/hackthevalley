@@ -3,12 +3,7 @@ import json
 from flask import Flask, jsonify, request, render_template, send_from_directory, abort
 from flask_cors import CORS, cross_origin
 from cognitive import emotions, face
-from db import insertMetric, insertUser, userExists
-import os
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-
-context = (dir_path + '/cert/cert.pem', dir_path + '/cert/key.pem')
+from db import insertMetric, insertUser, userExists, getAllVideoIds, getVideoMetrics, getDemographic
 
 app = Flask(__name__)
 CORS(app)
@@ -24,13 +19,13 @@ def collect():
     if not userExists(request.json['user_id']):
         response = json.loads(face(request.json['image']))
         if len(response) == 0:
-            abort(500)
+            return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
         attributes = response[0]['faceAttributes']
         insertUser(request.json['user_id'], attributes['age'], attributes['gender'])
 
     response = json.loads(emotions(request.json['image']))
     if len(response) == 0:
-        abort(500)
+        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     scores = response[0]['scores']
     insertMetric(request.json['video_id'],
                  request.json['user_id'],
@@ -47,17 +42,41 @@ def collect():
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
-@app.route('/admin', methods=['GET'])
+@app.route('/metric', methods=['POST'])
 @cross_origin()
-def admin():
-    return render_template("admin.html")
+def metric():
+    if not request.json or not 'video_id' in request.json:
+        abort(400)
+    return jsonify(getVideoMetrics(request.json['video_id']))
 
-
-@app.route('/video', methods=['GET'])
+@app.route('/demographic', methods=['POST'])
 @cross_origin()
-def video():
-    return render_template("video.html")
+def demographic():
+    if not request.json or not 'video_id' in request.json:
+        abort(400)
+    return jsonify(getDemographic(request.json['video_id']))
 
+@app.route('/all_videos', methods=['GET'])
+@cross_origin()
+def all_videos():
+    return jsonify(getAllVideoIds())
+
+@app.route('/admin/<string:video_id>', methods=['GET'])
+@cross_origin()
+def admin(video_id):
+    return render_template("admin.html", video_id=video_id)
+
+@app.route('/video/<string:video_id>', methods=['GET'])
+@cross_origin()
+def video(video_id):
+    return render_template("video.html", video_id=video_id)
+
+
+@app.route('/select', methods=['GET'])
+@cross_origin()
+def select():
+    video_ids = getAllVideoIds()
+    return render_template("select.html", video_ids=video_ids)
 
 @app.route('/js/<path:path>')
 @cross_origin()
@@ -69,7 +88,3 @@ def send_js(path):
 @cross_origin()
 def send_css(path):
     return send_from_directory('templates/css', path)
-
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', ssl_context=context)

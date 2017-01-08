@@ -1,6 +1,11 @@
 <html>
 <head>
-    <link href="css/main.css" rel="stylesheet">
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link href="/css/main.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
 
 </head>
@@ -16,16 +21,26 @@
 </div>
 <video id="camera" autoplay></video>
 
-<div id="incoming">
-    <h2>Incoming photos</h2>
-    <canvas id="photo"></canvas>
-    <a href="#" class="button" id="btn-download" download="my-file-name.png">Download</a>
+<canvas id="photo"></canvas>
+<div class="fixed-action-btn center-align">
+    Webcam
+<!-- Switch -->
+  <div class="switch" id="webcam-switch">
+    <label>
+      Off
+      <input type="checkbox" id="webcam-switch-radio">
+      <span class="lever"></span>
+      On
+    </label>
+  </div>
 </div>
 
-
+</body>
+<script type="text/javascript">
+    var VIDEO_ID = "{{ video_id }}";
+</script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-<script src="js/adapter.js"></script>
-<script src="js/main.js"></script>
-</body>
+<script src="/js/adapter.js"></script>
+<script src="/js/main.js"></script>
 </html>

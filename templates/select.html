@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>Select a video</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style type="text/css">
+        body {
+            background: url(http://i.imgur.com/fljVhyK.png) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <h1 class="center-align white-text">Select a video:</h1>
+    </div>
+    <div class="row">
+        {% for video_id in video_ids %}
+
+            <div class="col s6 m4">
+                <div class="card">
+                    <div class="card-image">
+                        <a href="/admin/{{ video_id }}">
+                            <img src="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg"/>
+                        </a> <span class="card-title">&lt;{{ video_id }}&gt;</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+</html>
