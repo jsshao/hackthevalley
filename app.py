@@ -84,7 +84,8 @@ def video(video_id):
 @app.route('/select', methods=['GET'])
 @cross_origin()
 def select():
-    video_ids = getAllVideoIds()
+    # video_ids = getAllVideoIds()
+    video_ids = ["qnGdu9WiwZE"]
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
     videos = []
     for video_id in video_ids:
@@ -137,3 +138,8 @@ def send_js(path):
 @cross_origin()
 def send_css(path):
     return send_from_directory('templates/css', path)
+
+@app.route('/images/<path:path>')
+@cross_origin()
+def send_images(path):
+    return send_from_directory('templates/images', path)
