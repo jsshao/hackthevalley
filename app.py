@@ -4,6 +4,11 @@ from flask import Flask, jsonify, request, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
 from cognitive import emotions, face
 from db import insertMetric, insertUser, userExists
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+context = (dir_path + '/cert/cert.pem', dir_path + '/cert/key.pem')
 
 app = Flask(__name__)
 CORS(app)
@@ -27,19 +32,19 @@ def collect():
     if len(response) == 0:
         abort(500)
     scores = response[0]['scores']
-    insertMetric(request.json['video_id'], 
-            request.json['user_id'], 
-            request.json['timestamp'],
-            scores['anger'],
-            scores['contempt'],
-            scores['disgust'],
-            scores['fear'],
-            scores['happiness'],
-            scores['neutral'],
-            scores['sadness'],
-            scores['surprise'])
-    
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+    insertMetric(request.json['video_id'],
+                 request.json['user_id'],
+                 request.json['timestamp'],
+                 scores['anger'],
+                 scores['contempt'],
+                 scores['disgust'],
+                 scores['fear'],
+                 scores['happiness'],
+                 scores['neutral'],
+                 scores['sadness'],
+                 scores['surprise'])
+
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
 @app.route('/admin', methods=['GET'])
@@ -67,4 +72,4 @@ def send_css(path):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', ssl_context=context)
