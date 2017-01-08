@@ -20,7 +20,7 @@ let randomXY = function () {
     }
     return [x, y]
 }
-let data = []
+let gData1 = []
 for (let i = 0; i < 4; i++) {
     let xy = randomXY();
     let datapoint = {
@@ -29,19 +29,79 @@ for (let i = 0; i < 4; i++) {
         type: 'scatter',
         name: 'random' + i
     }
-    data.push(datapoint)
+    gData1.push(datapoint)
 }
 
-layout = {
-    hovermode: 'closest',
-    title: 'Click to fastforward video to current time'
-};
+let gData = []
+let vidId = "VEX7KhIA3bU";
+let rawGData;
+$.ajax("https://23.101.131.211/metric",{
+  data: JSON.stringify({"video_id":vidId}),
+  contentType: 'application/json',
+  type: 'POST',
+  success: function(data){
+    rawGData = data;
+  }
+}).done(function(){
+  emotions = Object.keys(rawGData[0]);
+  emotions.splice(emotions.indexOf("timestamp"),1);
 
-// plotly plot
-let plot1 = document.getElementById('chart1')
-Plotly.newPlot('chart1', data, layout);
-
-// enable click to skip to point in video
-plot1.on('plotly_click', function (data) {
+  for (let j=0; j < emotions.length; j++){
+    x = []
+    y = []
+    for (let i = 0; i < rawGData.length; i++) {
+      y.push(rawGData[i][emotions[j]])
+      x.push(i/2)
+    }
+    let datapoint = {
+      x,
+      y,
+      type: 'scatter',
+      name: emotions[j]
+    }
+    gData.push(datapoint)
+  }
+  // for (let i = 0; i < emotions.length; i++) {
+  //
+  // }
+  layout = {
+      hovermode: 'closest',
+      title: 'Click to fastforward video to current time'
+  };
+  Plotly.newPlot('graph', gData, layout);
+  // enable click to skip to point in video
+  let graph = document.getElementById('graph')
+  graph.on('plotly_click', function (data) {
     player.seekTo(data.points[0].x, true);
-});
+  });
+})
+
+let rawData;
+$.ajax("https://23.101.131.211/demographic",{
+  data: JSON.stringify({"video_id":vidId}),
+  contentType: 'application/json',
+  type: 'POST',
+  success: function(data){
+    rawData = data;
+  }
+}).done(function(){
+  let pData = [
+    {
+      y: ["13-17","18-24","25-35","35-44","45-54","55+"],
+      x: rawData.age,
+      type: 'bar',
+      orientation: 'h'
+  }]
+  let bData = [
+    {
+      labels: ["male","female"],
+      values: rawData.gender,
+      type: 'pie'
+  }]
+
+  // plotly plot
+  console.log('reach')
+
+  Plotly.newPlot('barChart', bData);
+  Plotly.newPlot('pieChart', pData,{title: 'Age'});
+})

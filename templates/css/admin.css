@@ -12,13 +12,39 @@
     box-shadow: 17px 10px 56px -17px rgba(0, 0, 0, 0.75);
 }
 
-#chart1 {
+#graph {
     width: 900px;
     height: 400px;
-    /*background-color: black;*/
     margin: 10 auto;
     position: relative;
     left: 20px;
+    z-index: 3
+}
+
+.pieBar {
+  width: 1000px;
+  height: 400px;
+  margin: auto;
+  position: relative;
+  left: 20px;
+  margin-top: -110px;
+}
+#pieChart {
+  width: 450px;
+  height: 400px;
+  margin: 0;
+  float: left;
+  text-align:
+  left: 20px;
+}
+
+#barChart {
+  width: 550px;
+  height: 400px;
+  margin: 0;
+  float: left;
+  text-align:
+  left: 20px;
 }
 
 .titleBlock {
