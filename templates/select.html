@@ -15,6 +15,35 @@
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
+            font-family:roboto;
+            font-weight:500;
+        }
+        .white-text{
+          font-faml: Roboto;
+        }
+        .logo{
+          position: fixed;
+          width:10%;
+          margin-top:0px;
+          right: 30px;
+
+        }
+        /*.card-image:hover{*/
+          /**/
+        /*}*/
+        /* Opacity #1 */
+        .card-image img {
+        	opacity: 1;
+        	-webkit-transition: .3s ease-in-out;
+        	transition: .3s ease-in-out;
+        }
+        .card-image:hover img {
+        	opacity: .7;
+        }
+
+        .title{
+          border-radius: 20%;
+          border: 2px solid #ffffff;
         }
     </style>
 
@@ -24,8 +53,9 @@
 
 <body>
 <div class="container">
-    <div class="row">
-        <h1 class="center-align white-text">Viewed Videos</h1>
+    <div class="row center-align">
+        <img class="logo" src="/images/logo-trans-white.png"/>
+        <h1 class="center-align white-text" >Viewed Videos</h1>
     </div>
     <div class="row">
         {% for video in videos %}
