@@ -47,12 +47,12 @@
 
   <!-- embedded Youtube player with iframs -->
   <script>
-    var tag = document.createElement('script');
+    let tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
+    let firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    var player;
+    let player;
     function onYouTubePlayerAPIReady() {
       player = new YT.Player('player', {
         height: '400',
@@ -69,7 +69,7 @@
       document.getElementById( "title" ).innerText = player.getVideoData().title;
     }
 
-    var myPlayerState;
+    let myPlayerState;
     function onPlayerStateChange(event) {
       if (event.data == YT.PlayerState.PLAYING) {
         //PLAYING
@@ -112,7 +112,7 @@
         prev = randomY
       }
       yMax = Math.max(...y)
-      for(var i = 0, length = y.length; i < length; i++){
+      for(let i = 0, length = y.length; i < length; i++){
         y[i] = y[i]/yMax;
       }
       return [x,y]
@@ -135,7 +135,7 @@
      };
 
     // plotly plot
-    var plot1 = document.getElementById('chart1')
+    let plot1 = document.getElementById('chart1')
     Plotly.newPlot('chart1', data, layout);
 
     // enable click to skip to point in video
