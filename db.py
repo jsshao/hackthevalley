@@ -24,7 +24,7 @@ def insertMetric(video_id, user_id, elapsed_time, anger, contempt,
             neutral + "," +
             sadness + "," +
             surprise +
-            ')') 
+            ')')
     cursor.commit()
 
 #def insertUser(video
