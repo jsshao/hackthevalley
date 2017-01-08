@@ -64,7 +64,7 @@ function stopAnimation() {
 }
 
 
-let gData = [{x: [0, 0], y: [0, 1], type: 'line', marker: {color: 'rgb(131, 131, 131)'}, name: 'Current Time'}]
+let gData = [{x: [0, 0], y: [0, 1], type: 'line', line: {color: '#8FA7CD',width: 3}, name: 'Current Time'}]
 let vidId = VIDEO_ID;
 let rawGData;
 var frames = [];
