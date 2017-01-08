@@ -1,7 +1,9 @@
 #!flask/bin/python
+import json
 from flask import Flask, jsonify, request, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
-from cognitive import emotions
+from cognitive import emotions, face
+from db import insertMetric, insertUser, userExists
 
 app = Flask(__name__)
 CORS(app)
@@ -10,9 +12,34 @@ CORS(app)
 @app.route('/collect', methods=['POST'])
 @cross_origin()
 def collect():
-    if not request.json or 'image' not in request.json:
+    expectedFields = ['image', 'timestamp', 'video_id', 'user_id']
+    if not request.json or not all(field in request.json for field in expectedFields):
         abort(400)
-    return jsonify({'response': emotions(request.json['image'])})
+
+    if not userExists(request.json['user_id']):
+        response = json.loads(face(request.json['image']))
+        if len(response) == 0:
+            abort(500)
+        attributes = response[0]['faceAttributes']
+        insertUser(request.json['user_id'], attributes['age'], attributes['gender'])
+
+    response = json.loads(emotions(request.json['image']))
+    if len(response) == 0:
+        abort(500)
+    scores = response[0]['scores']
+    insertMetric(request.json['video_id'], 
+            request.json['user_id'], 
+            request.json['timestamp'],
+            scores['anger'],
+            scores['contempt'],
+            scores['disgust'],
+            scores['fear'],
+            scores['happiness'],
+            scores['neutral'],
+            scores['sadness'],
+            scores['surprise'])
+    
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
 
 @app.route('/admin', methods=['GET'])
