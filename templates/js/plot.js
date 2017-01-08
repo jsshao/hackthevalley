@@ -31,10 +31,58 @@
 //     }
 //     gData1.push(datapoint)
 // }
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+let firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-let gData = []
+let player;
+let cursor;
+function onYouTubePlayerAPIReady() {
+    player = new YT.Player('player', {
+        height: '400',
+        width: '711',
+        videoId: VIDEO_ID,
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        },
+    });
+}
+function onPlayerReady(event) {
+    console.log('youtube player loaded')
+    document.getElementById("title").innerText = player.getVideoData().title;
+}
+
+let myPlayerState;
+function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+        //PLAYING
+        console.log('video started');
+        let currTime = player.getCurrentTime();
+
+        Plotly.animate('graph', names, {
+        	frame: [{
+        		duration: 500
+        	}, ],
+        	transition: [{
+        		duration: 450,
+        		easing: 'linear'
+        	}, ],
+        	mode: 'next'
+        })
+    } else if (event.data == YT.PlayerState.PAUSED) {
+        //PAUSED
+        console.log('video paused')
+    }
+}
+
+
+let gData = [{x:[0,0],y:[0,1],type:'line',marker:{color:'rgb(131, 131, 131)'},name:'Current Time'}]
 let vidId = VIDEO_ID;
 let rawGData;
+var frames = [];
+var names = [];
 let colors = ['rgb(233, 69, 52)','rgb(233, 172, 52)','rgb(71, 36, 60)','rgb(126, 209, 47)','rgb(94, 66, 47)','rgb(57, 55, 163)','rgb(222, 198, 35)']
 $.ajax("https://23.101.131.211/metric",{
   data: JSON.stringify({"video_id":vidId}),
@@ -71,7 +119,33 @@ $.ajax("https://23.101.131.211/metric",{
       title: 'Click to fastforward video to current time'
   };
   Plotly.newPlot('graph', gData, layout);
+
+  //moving cursor frames
+
+  for (let i = 1; i < rawGData.length; i+=1) {
+  	name = 'frame' + i;
+  	frames.push({
+  		name: name,
+  		data: [{
+  			x: [i/2, i/2],
+  			y: [0, 1]
+  		}]
+  	});
+  	names.push(name);
+  }
+  Plotly.addFrames('graph', frames);
+	// Plotly.animate('graph', names, {
+  // 	frame: [{
+  // 		duration: 500
+  // 	}, ],
+  // 	transition: [{
+  // 		duration: 450,
+  // 		easing: 'linear'
+  // 	}, ],
+  // 	mode: 'next'
+  // })
 })
+
 
 let rawData;
 $.ajax("https://23.101.131.211/demographic",{
