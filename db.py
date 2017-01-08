@@ -87,6 +87,15 @@ def getVideoMetrics(video_id):
                      })
     return data
 
+def getAllVideoIds():
+    cursor = connect().cursor()
+    query = """
+            SELECT DISTINCT video_id
+            FROM metrics
+    """
+    cursor.execute(query)
+    return [video[0] for video in cursor.fetchall()]
+
 # Test only
 if __name__ == '__main__':
     insertMetric('test', 'test', 10, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
@@ -98,7 +107,7 @@ if __name__ == '__main__':
     print userExists('test_user')
     print userExists('test')
     print getVideoMetrics('VEX7KhIA3bU')
-   
+    print getAllVideoIds()
 
 #cursor.execute("SELECT * FROM metrics")
 #for rows in cursor.tables():

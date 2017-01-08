@@ -3,7 +3,7 @@ import json
 from flask import Flask, jsonify, request, render_template, send_from_directory, abort
 from flask_cors import CORS, cross_origin
 from cognitive import emotions, face
-from db import insertMetric, insertUser, userExists, getVideoMetrics
+from db import insertMetric, insertUser, userExists, getVideoMetrics, getAllVideoIds
 import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -52,6 +52,11 @@ def metric():
     if not request.json or not 'video_id' in request.json:
         abort(400)
     return jsonify(getVideoMetrics(request.json['video_id']))
+
+@app.route('/all_videos', methods=['GET'])
+@cross_origin()
+def all_videos():
+    return jsonify(getAllVideoIds())
 
 @app.route('/admin', methods=['GET'])
 @cross_origin()
