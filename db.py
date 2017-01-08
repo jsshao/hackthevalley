@@ -56,6 +56,13 @@ def deleteAll():
     cursor.execute("DELETE FROM users")
     conn.commit() 
 
+def getVideoMetrics(video_id):
+    cursor = connect().cursor()
+    query = """SELECT ...
+    """
+                     
+    cursor.execute("SELECT 
+
 # Test only
 if __name__ == '__main__':
     insertMetric('test', 'test', 10, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
