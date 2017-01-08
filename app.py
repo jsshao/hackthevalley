@@ -3,12 +3,7 @@ import json
 from flask import Flask, jsonify, request, render_template, send_from_directory, abort
 from flask_cors import CORS, cross_origin
 from cognitive import emotions, face
-from db import insertMetric, insertUser, userExists, getVideoMetrics, getAllVideoIds
-import os
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-
-context = (dir_path + '/cert/cert.pem', dir_path + '/cert/key.pem')
+from db import insertMetric, insertUser, userExists, getAllVideoIds, getVideoMetrics
 
 app = Flask(__name__)
 CORS(app)
@@ -46,6 +41,7 @@ def collect():
 
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
+
 @app.route('/metric', methods=['POST'])
 @cross_origin()
 def metric():
@@ -53,10 +49,12 @@ def metric():
         abort(400)
     return jsonify(getVideoMetrics(request.json['video_id']))
 
+
 @app.route('/all_videos', methods=['GET'])
 @cross_origin()
 def all_videos():
     return jsonify(getAllVideoIds())
+
 
 @app.route('/admin', methods=['GET'])
 @cross_origin()
@@ -80,7 +78,3 @@ def send_js(path):
 @cross_origin()
 def send_css(path):
     return send_from_directory('templates/css', path)
-
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', ssl_context=context)
