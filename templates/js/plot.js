@@ -133,6 +133,12 @@ $.ajax("https://23.101.131.211/metric", {
     // 	}, ],
     // 	mode: 'next'
     // })
+    // enable click to skip to point in video
+    let graph = document.getElementById('graph')
+    graph.on('plotly_click', function (data) {
+      player.seekTo(data.points[0].x, true);
+    });
+
 })
 
 
