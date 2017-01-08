@@ -114,9 +114,9 @@ def getDemographic(video_id):
     cursor.execute(query)
     for point in cursor.fetchall():
         if point[0] == 'male':
-            data['age'][0] = point[1]
+            data['gender'][0] = point[1]
         else:
-            data['age'][1] = point[1]
+            data['gender'][1] = point[1]
     query = """
             SELECT SUM(CASE WHEN age BETWEEN 13 AND 17 THEN 1 ELSE 0 END),
                    SUM(CASE WHEN age BETWEEN 18 AND 24 THEN 1 ELSE 0 END),
