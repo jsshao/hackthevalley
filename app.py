@@ -72,6 +72,12 @@ def video():
     return render_template("video.html")
 
 
+@app.route('/select', methods=['GET'])
+@cross_origin()
+def select():
+    video_ids = getAllVideoIds()
+    return render_template("select.html", video_ids=video_ids)
+
 @app.route('/js/<path:path>')
 @cross_origin()
 def send_js(path):
