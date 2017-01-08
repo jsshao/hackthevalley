@@ -3,7 +3,7 @@ import json
 from flask import Flask, jsonify, request, render_template, send_from_directory, abort
 from flask_cors import CORS, cross_origin
 from cognitive import emotions, face
-from db import insertMetric, insertUser, userExists, getAllVideoIds, getVideoMetrics
+from db import insertMetric, insertUser, userExists, getAllVideoIds, getVideoMetrics, getDemographic
 
 app = Flask(__name__)
 CORS(app)
@@ -49,6 +49,12 @@ def metric():
         abort(400)
     return jsonify(getVideoMetrics(request.json['video_id']))
 
+@app.route('/demographic', methods=['POST'])
+@cross_origin()
+def demographic():
+    if not request.json or not 'video_id' in request.json:
+        abort(400)
+    return jsonify(getDemographic(request.json['video_id']))
 
 @app.route('/all_videos', methods=['GET'])
 @cross_origin()
