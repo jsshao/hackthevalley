@@ -173,7 +173,7 @@ $.ajax("https://23.101.131.211/demographic", {
 
     // plotly plot
     console.log('reach')
-    document.getElementById("viewCount").innerText = "Total views: " + rawData.gender.length;
+    document.getElementById("viewCount").innerText = "Total views: " + (rawData.gender[0]+rawData.gender[1]);
     Plotly.newPlot('barChart', bData);
     Plotly.newPlot('pieChart', pData, {title: 'Age'});
 })
