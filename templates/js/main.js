@@ -11,7 +11,7 @@ var photoContext = photo.getContext('2d');
 var button = document.getElementById('btn-download');
 var photoData;
 var photoTimer;
-var PHOTO_INTERVAL = 4000;
+var PHOTO_INTERVAL = 500;
 var VIDEO_ID = "VEX7KhIA3bU";
 
 var photoContextW;
