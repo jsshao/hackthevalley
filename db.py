@@ -58,10 +58,34 @@ def deleteAll():
 
 def getVideoMetrics(video_id):
     cursor = connect().cursor()
-    query = """SELECT ...
-    """
-                     
-    cursor.execute("SELECT 
+    query = """
+            SELECT elapsed_time, 
+                   AVG(anger),
+                   AVG(contempt),
+                   AVG(disgust),
+                   AVG(fear),
+                   AVG(happiness),
+                   AVG(neutral),
+                   AVG(sadness),
+                   AVG(surprise)
+            FROM metrics
+            WHERE video_id = '%s'
+            GROUP BY elapsed_time
+    """ % video_id
+    cursor.execute(query)
+    data = []
+    for point in cursor.fetchall():
+        data.append({"timestamp": point[0],
+                     "anger": point[1],
+                     "contempt": point[2],
+                     "disgust": point[3],
+                     "fear": point[4],
+                     "happiness": point[5],
+                     "neutral": point[6],
+                     "sadness": point[7],
+                     "surprise": point[8],
+                     })
+    return data
 
 # Test only
 if __name__ == '__main__':
@@ -73,6 +97,7 @@ if __name__ == '__main__':
     print cursor.fetchall()
     print userExists('test_user')
     print userExists('test')
+    print getVideoMetrics('VEX7KhIA3bU')
    
 
 #cursor.execute("SELECT * FROM metrics")

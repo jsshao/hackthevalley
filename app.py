@@ -3,7 +3,7 @@ import json
 from flask import Flask, jsonify, request, render_template, send_from_directory, abort
 from flask_cors import CORS, cross_origin
 from cognitive import emotions, face
-from db import insertMetric, insertUser, userExists
+from db import insertMetric, insertUser, userExists, getVideoMetrics
 import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -24,13 +24,13 @@ def collect():
     if not userExists(request.json['user_id']):
         response = json.loads(face(request.json['image']))
         if len(response) == 0:
-            abort(500)
+            return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
         attributes = response[0]['faceAttributes']
         insertUser(request.json['user_id'], attributes['age'], attributes['gender'])
 
     response = json.loads(emotions(request.json['image']))
     if len(response) == 0:
-        abort(500)
+        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     scores = response[0]['scores']
     insertMetric(request.json['video_id'],
                  request.json['user_id'],
@@ -46,6 +46,12 @@ def collect():
 
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
+@app.route('/metric', methods=['POST'])
+@cross_origin()
+def metric():
+    if not request.json or not 'video_id' in request.json:
+        abort(400)
+    return jsonify(getVideoMetrics(request.json['video_id']))
 
 @app.route('/admin', methods=['GET'])
 @cross_origin()
