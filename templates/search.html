@@ -1,17 +1,53 @@
 <html>
 <head>
-  <script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
+    <title>Scout</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style type="text/css">
+        body {
+            background: url(http://i.imgur.com/fljVhyK.png) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
+
 </head>
+
 <body>
-  <div>
-    <form id="videoIdForm">
-      <input type="text" name="video_id" value="VEX7KhIA3bU">
-      <input id="button" type="button" name="submit" value="submit">
-    </form>
-  </div>
-  <script src="./js/fetchData.js"></script>
+<div class="container">
+    <br/><br/><br/><h1 class="white-text center-align">Scout</h1><br/><br/><br/>
+
+    <div class="row">
+        <form class="col s8 offset-s2 center-align" action="/search_results" method="POST">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="query_string" type="text" name="query_string">
+                    <label for="query_string">Search Keywords</label>
+                </div>
+            </div>
+            <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Submit
+                <i class="material-icons right">send</i>
+            </button>
+        </form>
+
+    </div>
+</div>
+
 </body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+<script type="text/javascript">
+    $(".button-collapse").sideNav();
+</script>
 </html>

@@ -11,29 +11,42 @@
 </head>
 
 <body>
+<div class="fixed-action-btn center-align">
+    Webcam
+    <!-- Switch -->
+    <div class="switch" id="webcam-switch">
+        <label>
+            Off
+            <input type="checkbox" id="webcam-switch-radio">
+            <span class="lever"></span>
+            On
+        </label>
+    </div>
+</div>
 
 <div class="page">
     <div class="titleBlock"></div>
     <div id="title"></div>
-    <div class="embeddedVid">
+    <div class="embeddedVid center-align">
         <div id="player"></div>
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="col s6 right-align">
+                <a href="javascript:history.back()" class="waves-effect waves-light btn"><i class="material-icons left">skip_previous</i>Previous
+                    Page</a>
+            </div>
+            <div class="col s6 left-align">
+                <a href="/search" class="waves-effect waves-light btn"><i class="material-icons right">search</i>Search</a>
+            </div>
+        </div>
+    </div>
+
 </div>
 <video id="camera" autoplay></video>
 
 <canvas id="photo"></canvas>
-<div class="fixed-action-btn center-align">
-    Webcam
-<!-- Switch -->
-  <div class="switch" id="webcam-switch">
-    <label>
-      Off
-      <input type="checkbox" id="webcam-switch-radio">
-      <span class="lever"></span>
-      On
-    </label>
-  </div>
-</div>
+
 
 </body>
 <script type="text/javascript">
