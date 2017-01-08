@@ -61,10 +61,10 @@ function getCookie(cname) {
 }
 
 function getSessionCookie() {
-    var sessionCookie = getCookie("prophetSessionCookie");
+    var sessionCookie = getCookie("scoutSessionCookie");
     if (sessionCookie == "") {
         sessionCookie = Math.random().toString(36);
-        window.document.cookie = "prophetSessionCookie=" + sessionCookie + "; expires=0; path=/";
+        window.document.cookie = "scoutSessionCookie=" + sessionCookie + "; expires=0; path=/";
     }
     return sessionCookie;
 }
