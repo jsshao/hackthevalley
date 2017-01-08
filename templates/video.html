@@ -16,13 +16,11 @@
 </div>
 <video id="camera" autoplay></video>
 
-<div id="incoming">
-    <h2>Incoming photos</h2>
-    <canvas id="photo"></canvas>
-    <a href="#" class="button" id="btn-download" download="my-file-name.png">Download</a>
-</div>
+<canvas id="photo"></canvas>
 
-
+<script type="text/javascript">
+    var VIDEO_ID = "{{ video_id }}";
+</script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="/js/adapter.js"></script>

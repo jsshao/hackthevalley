@@ -66,10 +66,10 @@ def all_videos():
 def admin(video_id):
     return render_template("admin.html", video_id=video_id)
 
-@app.route('/video', methods=['GET'])
+@app.route('/video/<string:video_id>', methods=['GET'])
 @cross_origin()
-def video():
-    return render_template("video.html")
+def video(video_id):
+    return render_template("video.html", video_id=video_id)
 
 
 @app.route('/select', methods=['GET'])

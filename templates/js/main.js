@@ -8,11 +8,9 @@
 var video = document.querySelector('video');
 var photo = document.getElementById('photo');
 var photoContext = photo.getContext('2d');
-var button = document.getElementById('btn-download');
 var photoData;
 var photoTimer;
 var PHOTO_INTERVAL = 500;
-var VIDEO_ID = "VEX7KhIA3bU";
 
 var photoContextW;
 var photoContextH;
@@ -75,7 +73,6 @@ function getSessionCookie() {
 
 function savePhoto() {
     photoContext.drawImage(video, 0, 0, photo.width, photo.height);
-    show(photo);
     photoData = photo.toDataURL().substring(22);
     var data = {
         image: photoData,
@@ -114,10 +111,6 @@ function hide() {
         elem.style.display = 'none';
     });
 }
-
-button.addEventListener('click', function (e) {
-    button.href = photoData;
-});
 
 /****************************************************************************
  * YouTube Section
