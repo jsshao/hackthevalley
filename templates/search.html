@@ -34,11 +34,19 @@
                     <label for="query_string">Search Keywords</label>
                 </div>
             </div>
-            <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Submit
+            <button class="btn btn-large waves-effect waves-light" type="submit">Submit
                 <i class="material-icons right">send</i>
             </button>
         </form>
 
+    </div>
+    <br/><br/><br/><br/>
+    <div class="row">
+        <div class="col s6 offset-s3 center-align">
+            <button class="btn btn-large waves-effect waves-light" type="button" id="clear_session">Clear Session
+                <i class="material-icons right">delete</i>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -48,6 +56,8 @@
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 <script type="text/javascript">
-    $(".button-collapse").sideNav();
+    $("#clear_session").click(function(){
+        window.document.cookie = "scoutSessionCookie=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    });
 </script>
 </html>
