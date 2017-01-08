@@ -90,8 +90,10 @@ def getVideoMetrics(video_id):
 def getAllVideoIds():
     cursor = connect().cursor()
     query = """
-            SELECT DISTINCT video_id
+            SELECT video_id
             FROM metrics
+            GROUP BY video_id
+            ORDER BY COUNT(DISTINCT user_id) DESC;
     """
     cursor.execute(query)
     return [video[0] for video in cursor.fetchall()]

@@ -61,12 +61,10 @@ def demographic():
 def all_videos():
     return jsonify(getAllVideoIds())
 
-
 @app.route('/admin', methods=['GET'])
 @cross_origin()
 def admin():
     return render_template("admin.html")
-
 
 @app.route('/video', methods=['GET'])
 @cross_origin()
