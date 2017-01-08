@@ -1,6 +1,6 @@
 #!flask/bin/python
 import json
-from flask import Flask, jsonify, request, render_template, send_from_directory
+from flask import Flask, jsonify, request, render_template, send_from_directory, abort
 from flask_cors import CORS, cross_origin
 from cognitive import emotions, face
 from db import insertMetric, insertUser, userExists

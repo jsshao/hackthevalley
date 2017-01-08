@@ -94,8 +94,7 @@ function savePhoto() {
         dataType: "json"
     })
         .done(function (msg) {
-            var result = JSON.parse(msg.response);
-            console.log(result);
+            console.log(msg);
         });
 }
 
