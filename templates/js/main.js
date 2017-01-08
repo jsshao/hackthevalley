@@ -172,7 +172,8 @@ function stopVideo() {
  * Init
  ****************************************************************************/
 
-webcamSwitch.addEventListener("click", function () {
+webcamSwitchRadio.addEventListener("click", function () {
+    console.log(webcamSwitchRadio.checked);
     if (webcamSwitchRadio.checked) {
         initWebCam();
     } else {
